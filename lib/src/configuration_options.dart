@@ -62,7 +62,7 @@ const String enableAnnotationEditing = 'enableAnnotationEditing';
 const String androidShowAnnotationListAction = 'androidShowAnnotationListAction';
 
 /// Document Info Options
-const String iOSdocumentInfoOptions = 'documentInfoOptions';
+const String iOSDocumentInfoOptions = 'documentInfoOptions';
 const String iOSDocumentInfoOptions_Outline = 'outline';
 const String iOSDocumentInfoOptions_Annotations = 'annotations';
 const String iOSDocumentInfoOptions_EmbeddedFiles = 'embeddedFiles';
