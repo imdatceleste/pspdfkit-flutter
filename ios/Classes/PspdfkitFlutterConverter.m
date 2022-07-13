@@ -184,7 +184,12 @@
 
         key = @"disableAutosave";
         if (dictionary[key]){
-            builder.autosaveEnabled = ![dictionary[key] boolValue];
+          builder.autosaveEnabled = ![dictionary[key] boolValue];
+        }
+      
+        key = @"shouldAskForAnnotationUsername";
+        if (dictionary[key]){
+          builder.shouldAskForAnnotationUsername = ![dictionary[key] boolValue];
         }
     }];
 }

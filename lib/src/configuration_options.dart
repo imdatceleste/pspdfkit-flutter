@@ -60,6 +60,7 @@ const String androidShowThumbnailGridAction = 'androidShowThumbnailGridAction';
 
 const String enableAnnotationEditing = 'enableAnnotationEditing';
 const String androidShowAnnotationListAction = 'androidShowAnnotationListAction';
+const String shouldAskForAnnotationUsername = 'shouldAskForAnnotationUsername';
 
 /// Document Info Options
 const String iOSDocumentInfoOptions = 'documentInfoOptions';
