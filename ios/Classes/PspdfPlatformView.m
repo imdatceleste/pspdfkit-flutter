@@ -97,8 +97,23 @@
             }
             key = @"documentInfoOptions";
             if (configurationDictionary[key]) {
-                [PspdfkitFlutterHelper setDocumentInfoOptions:configurationDictionary[key]
-                                            forViewController:_pdfViewController];
+              [PspdfkitFlutterHelper setDocumentInfoOptions:configurationDictionary[key]
+                                          forViewController:_pdfViewController];
+            }
+            key = @"annotationSaveMode";
+            if (configurationDictionary[key]) {
+              NSString *value = configurationDictionary[key];
+              if ([value isEqualToString:@"disabled"]) {
+                document.annotationSaveMode = PSPDFAnnotationSaveModeDisabled;
+              } else if ([value isEqualToString:@"externalFile"]) {
+                document.annotationSaveMode = PSPDFAnnotationSaveModeExternalFile;
+              } else if ([value isEqualToString:@"embedded"]) {
+                document.annotationSaveMode = PSPDFAnnotationSaveModeEmbedded;
+              } else if ([value isEqualToString:@"embeddedWithExternalFileAsFallback"]) {
+                document.annotationSaveMode = PSPDFAnnotationSaveModeEmbeddedWithExternalFileAsFallback;
+              } else {
+                document.annotationSaveMode = PSPDFAnnotationSaveModeDisabled;
+              }
             }
         }
     } else {
