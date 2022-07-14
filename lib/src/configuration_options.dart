@@ -74,6 +74,9 @@ const String iOSDocumentInfoOptions_Bookmarks = 'bookmarks';
 const String iOSDocumentInfoOptions_DocumentInfo = 'documentInfo';
 const String iOSDocumentInfoOptions_Security = 'security';
 
+/// Document Permissions; set this to false to ignore them
+const String honorDocumentPermissions = 'honorDocumentPermissions';
+
 /// Deprecated Options - These options will be removed in a future release.
 /// Please use the suggested alternatives instead.
 
