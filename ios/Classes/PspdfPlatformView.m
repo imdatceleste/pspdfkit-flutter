@@ -103,6 +103,7 @@
             key = @"annotationSaveMode";
             if (configurationDictionary[key]) {
               NSString *value = configurationDictionary[key];
+              NSLog(@"annotationSaveMode = %@", value);
               if ([value isEqualToString:@"disabled"]) {
                 _pdfViewController.document.annotationSaveMode = PSPDFAnnotationSaveModeDisabled;
               } else if ([value isEqualToString:@"externalFile"]) {
@@ -114,6 +115,8 @@
               } else {
                 _pdfViewController.document.annotationSaveMode = PSPDFAnnotationSaveModeDisabled;
               }
+            } else {
+              NSLog(@"No annotationSaveMode");
             }
         }
     } else {
