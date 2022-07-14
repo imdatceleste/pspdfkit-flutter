@@ -104,15 +104,15 @@
             if (configurationDictionary[key]) {
               NSString *value = configurationDictionary[key];
               if ([value isEqualToString:@"disabled"]) {
-                document.annotationSaveMode = PSPDFAnnotationSaveModeDisabled;
+                _pdfViewController.document.annotationSaveMode = PSPDFAnnotationSaveModeDisabled;
               } else if ([value isEqualToString:@"externalFile"]) {
-                document.annotationSaveMode = PSPDFAnnotationSaveModeExternalFile;
+                _pdfViewController.document.annotationSaveMode = PSPDFAnnotationSaveModeExternalFile;
               } else if ([value isEqualToString:@"embedded"]) {
-                document.annotationSaveMode = PSPDFAnnotationSaveModeEmbedded;
+                _pdfViewController.document.annotationSaveMode = PSPDFAnnotationSaveModeEmbedded;
               } else if ([value isEqualToString:@"embeddedWithExternalFileAsFallback"]) {
-                document.annotationSaveMode = PSPDFAnnotationSaveModeEmbeddedWithExternalFileAsFallback;
+                _pdfViewController.document.annotationSaveMode = PSPDFAnnotationSaveModeEmbeddedWithExternalFileAsFallback;
               } else {
-                document.annotationSaveMode = PSPDFAnnotationSaveModeDisabled;
+                _pdfViewController.document.annotationSaveMode = PSPDFAnnotationSaveModeDisabled;
               }
             }
         }
