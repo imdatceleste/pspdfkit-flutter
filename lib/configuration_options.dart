@@ -59,8 +59,20 @@ const String androidShowThumbnailGridAction = 'androidShowThumbnailGridAction';
 /// Annotation, Forms and Bookmark Options
 
 const String enableAnnotationEditing = 'enableAnnotationEditing';
-const String androidShowAnnotationListAction =
-    'androidShowAnnotationListAction';
+const String androidShowAnnotationListAction = 'androidShowAnnotationListAction';
+
+/// Available options for annotationSaveMode are: disabled, externalFile, embedded, embeddedWithExternalFileAsFallback
+/// Document Info Options
+const String iOSDocumentInfoOptions = 'documentInfoOptions';
+const String iOSDocumentInfoOptions_Outline = 'outline';
+const String iOSDocumentInfoOptions_Annotations = 'annotations';
+const String iOSDocumentInfoOptions_EmbeddedFiles = 'embeddedFiles';
+const String iOSDocumentInfoOptions_Bookmarks = 'bookmarks';
+const String iOSDocumentInfoOptions_DocumentInfo = 'documentInfo';
+const String iOSDocumentInfoOptions_Security = 'security';
+
+/// Document Permissions; set this to false to ignore them
+const String honorDocumentPermissions = 'honorDocumentPermissions';
 
 /// Deprecated Options - These options will be removed in a future release.
 /// Please use the suggested alternatives instead.
@@ -105,8 +117,7 @@ const String androidSettingsMenuItems = 'androidSettingsMenuItems';
 const String iOSSettingsMenuItems = 'iOSSettingsMenuItems';
 
 @Deprecated('Use showActionNavigationButtons instead.')
-const String iOSShowActionNavigationButtonLabels =
-    'iOSShowActionNavigationButtonLabels';
+const String iOSShowActionNavigationButtonLabels = 'iOSShowActionNavigationButtonLabels';
 
 /// Deprecated Strings
 
@@ -156,8 +167,7 @@ const String appearanceModeDefault = 'default';
 const String appearanceModeNight = 'night';
 
 @Deprecated('Directly use the String value instead.')
-const String appearanceModeSepia =
-    'sepia'; // Sepia mode is only supported on iOS.
+const String appearanceModeSepia = 'sepia'; // Sepia mode is only supported on iOS.
 
 @Deprecated('Directly use the String value instead.')
 const String showThumbnailBarFloating = 'floating';
