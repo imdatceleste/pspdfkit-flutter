@@ -60,6 +60,8 @@ const String androidShowThumbnailGridAction = 'androidShowThumbnailGridAction';
 
 const String enableAnnotationEditing = 'enableAnnotationEditing';
 const String androidShowAnnotationListAction = 'androidShowAnnotationListAction';
+const String shouldAskForAnnotationUsername = 'shouldAskForAnnotationUsername';
+const String annotationSaveMode = 'annotationSaveMode';
 
 /// Available options for annotationSaveMode are: disabled, externalFile, embedded, embeddedWithExternalFileAsFallback
 /// Document Info Options
