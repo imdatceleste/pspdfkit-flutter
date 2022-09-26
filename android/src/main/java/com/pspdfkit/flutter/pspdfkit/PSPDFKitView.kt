@@ -376,9 +376,19 @@ internal class PSPDFKitView(
 class PSPDFKitViewFactory(
     private val messenger: BinaryMessenger,
 ) : PlatformViewFactory(StandardMessageCodec.INSTANCE) {
+
+    // In case the view has an android:theme, we should unwrap context
+    private fun unwrap(context: Context): Activity {
+        while (context is! Activity && context is ContextWrapper) {
+            context = (context as ContextWrapper).getBaseContext()
+        }
+        return context as Activity
+    }
+
     override fun create(context: Context?, viewId: Int, args: Any?): PlatformView {
         val creationParams = args as Map<String?, Any?>?
-
+        
+        context = unwrap(context)
         return PSPDFKitView(
             context!!,
             viewId,
