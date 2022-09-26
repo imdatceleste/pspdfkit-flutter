@@ -132,7 +132,7 @@
 
 #pragma mark - Document Helpers
 
-+ (PSPDFDocument *)documentFromPath:(NSString *)path {
++ (nullable PSPDFDocument *)documentFromPath:(NSString *)path {
     NSURL *url;
 
     if ([path hasPrefix:@"/"]) {
