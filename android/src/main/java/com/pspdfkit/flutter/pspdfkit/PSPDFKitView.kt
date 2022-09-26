@@ -1,6 +1,7 @@
 package com.pspdfkit.flutter.pspdfkit
 
 import android.content.Context
+import android.content.ContextWrapper
 import android.net.Uri
 import android.view.View
 import androidx.fragment.app.FragmentActivity
@@ -387,10 +388,10 @@ class PSPDFKitViewFactory(
 
     override fun create(context: Context?, viewId: Int, args: Any?): PlatformView {
         val creationParams = args as Map<String?, Any?>?
-        
-        context = unwrap(context)
+        val nContext = unwrap(context!!)
+
         return PSPDFKitView(
-            context!!,
+            nContext,
             viewId,
             messenger,
             creationParams?.get("document") as String?,
