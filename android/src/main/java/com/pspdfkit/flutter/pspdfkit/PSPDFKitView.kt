@@ -380,10 +380,11 @@ class PSPDFKitViewFactory(
 
     // In case the view has an android:theme, we should unwrap context
     private fun unwrap(context: Context): FragmentActivity {
-        while (context !is FragmentActivity && context is ContextWrapper) {
-            context = (context as ContextWrapper).getBaseContext()
+        var ctx = context
+        while (ctx !is FragmentActivity && ctx is ContextWrapper) {
+            ctx = (ctx as ContextWrapper).getBaseContext()
         }
-        return context as FragmentActivity
+        return ctx as FragmentActivity
     }
 
     override fun create(context: Context?, viewId: Int, args: Any?): PlatformView {
