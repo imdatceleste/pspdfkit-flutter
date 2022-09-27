@@ -382,7 +382,7 @@ class PSPDFKitViewFactory(
     private fun unwrap(context: Context): FragmentActivity {
         var ctx = context
         while (ctx !is FragmentActivity && ctx is ContextWrapper) {
-            ctx = (ctx as ContextWrapper).getBaseContext()
+            ctx = ctx.getBaseContext()
         }
         return ctx as FragmentActivity
     }

@@ -107,6 +107,7 @@
                 _pdfViewController.document.annotationSaveMode = PSPDFAnnotationSaveModeDisabled;
               } else if ([value isEqualToString:@"externalFile"]) {
                 _pdfViewController.document.annotationSaveMode = PSPDFAnnotationSaveModeExternalFile;
+                _pdfViewController.document.renderAnnotationTypes = PSPDFAnnotationTypeInk|PSPDFAnnotationTypeHighlight|PSPDFAnnotationTypeStamp|PSPDFAnnotationTypeNote|PSPDFAnnotationTypeFreeText|PSPDFAnnotationTypeLine|PSPDFAnnotationTypeSquare|PSPDFAnnotationTypeCircle|PSPDFAnnotationTypePolyLine|PSPDFAnnotationTypePolygon|PSPDFAnnotationTypeStrikeOut|PSPDFAnnotationTypeSquiggly;
               } else if ([value isEqualToString:@"embedded"]) {
                 _pdfViewController.document.annotationSaveMode = PSPDFAnnotationSaveModeEmbedded;
               } else if ([value isEqualToString:@"embeddedWithExternalFileAsFallback"]) {
@@ -123,6 +124,7 @@
                 [_pdfViewController.document.features updateFeatures];
               }
             }
+
         }
     } else {
         _pdfViewController = [[PSPDFViewController alloc] init];
