@@ -52,8 +52,10 @@
     NSString *documentPath = args[@"document"];
     if (documentPath != nil && [documentPath isKindOfClass:[NSString class]] &&
         [documentPath length] > 0) {
+        NSDictionary *conf = args[@"configuration"];
+        NSLog(@"Args = %@", conf);
         NSDictionary *configurationDictionary = [PspdfkitFlutterConverter
-            processConfigurationOptionsDictionaryForPrefix:args[@"configuration"]];
+            processConfigurationOptionsDictionaryForPrefix:conf];
 
         PSPDFDocument *document = [PspdfkitFlutterHelper documentFromPath:documentPath];
         [PspdfkitFlutterHelper unlockWithPasswordIfNeeded:document
