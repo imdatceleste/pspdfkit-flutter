@@ -129,14 +129,13 @@
             _pdfViewController.annotationToolbarController.annotationToolbar.editableAnnotationTypes = [NSSet setWithArray:@[
                 PSPDFAnnotationStringInk,
                 PSPDFAnnotationStringHighlight,
-                PSPDFAnnotationStringNote,
-                PSPDFAnnotationStringFreeText,
-                PSPDFAnnotationStringLine,
-                PSPDFAnnotationStringSquare,
-                PSPDFAnnotationStringCircle,
-                PSPDFAnnotationStringPolygon,
+                PSPDFAnnotationStringSquiggly,
                 PSPDFAnnotationStringStrikeOut,
-                PSPDFAnnotationStringSquiggly
+                PSPDFAnnotationStringFreeText,
+                PSPDFAnnotationStringNote,
+                PSPDFAnnotationStringLine,
+                PSPDFAnnotationStringCircle,
+                PSPDFAnnotationStringSquare
             ]];
         }
     } else {
