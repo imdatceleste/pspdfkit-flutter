@@ -125,7 +125,19 @@
                 [_pdfViewController.document.features updateFeatures];
               }
             }
-
+            _pdfViewController.annotationToolbarController.annotationToolbar.configurations = nil;
+            _pdfViewController.annotationToolbarController.annotationToolbar.editableAnnotationTypes = [NSSet setWithArray:@[
+                PSPDFAnnotationStringInk,
+                PSPDFAnnotationStringHighlight,
+                PSPDFAnnotationStringNote,
+                PSPDFAnnotationStringFreeText,
+                PSPDFAnnotationStringLine,
+                PSPDFAnnotationStringSquare,
+                PSPDFAnnotationStringCircle,
+                PSPDFAnnotationStringPolygon,
+                PSPDFAnnotationStringStrikeOut,
+                PSPDFAnnotationStringSquiggly
+            ]];
         }
     } else {
         _pdfViewController = [[PSPDFViewController alloc] init];
