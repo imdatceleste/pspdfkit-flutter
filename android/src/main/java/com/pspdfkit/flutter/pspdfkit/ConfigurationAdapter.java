@@ -25,8 +25,10 @@ import com.pspdfkit.configuration.page.PageScrollMode;
 import com.pspdfkit.configuration.settings.SettingsMenuItemType;
 import com.pspdfkit.configuration.sharing.ShareFeatures;
 import com.pspdfkit.configuration.theming.ThemeMode;
+import com.pspdfkit.ui.special_mode.controller.AnnotationTool;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.EnumSet;
 import java.util.HashMap;
 
@@ -349,7 +351,23 @@ class ConfigurationAdapter {
             if (key != null) {
                 configureAutosaveEnabled(!(Boolean) configurationMap.get(key));
             }
+            configurationAnnotationTools();
         }
+    }
+
+    private void configurationAnnotationTools() {
+        List<AnnotationTool> enabledAnnotationTools = new ArrayList<>();
+        enabledAnnotationTools.add(AnnotationTool.INK);
+        enabledAnnotationTools.add(AnnotationTool.HIGHLIGHT);
+        enabledAnnotationTools.add(AnnotationTool.NOTE);
+        enabledAnnotationTools.add(AnnotationTool.FREETEXT);
+        enabledAnnotationTools.add(AnnotationTool.LINE);
+        enabledAnnotationTools.add(AnnotationTool.SQUARE);
+        enabledAnnotationTools.add(AnnotationTool.CIRCLE);
+        enabledAnnotationTools.add(AnnotationTool.POLYGON);
+        enabledAnnotationTools.add(AnnotationTool.STRIKEOUT);
+        enabledAnnotationTools.add(AnnotationTool.SQUIGGLY);
+        configuration.enabledAnnotationTools(enabledAnnotationTools);
     }
 
     private void configurePageTransition(@NonNull final String transition) {
