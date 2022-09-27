@@ -57,6 +57,7 @@
             processConfigurationOptionsDictionaryForPrefix:conf];
 
         PSPDFDocument *document = [PspdfkitFlutterHelper documentFromPath:documentPath];
+        document.renderAnnotationTypes = PSPDFAnnotationTypeInk|PSPDFAnnotationTypeHighlight|PSPDFAnnotationTypeStamp|PSPDFAnnotationTypeNote|PSPDFAnnotationTypeFreeText|PSPDFAnnotationTypeLine|PSPDFAnnotationTypeSquare|PSPDFAnnotationTypeCircle|PSPDFAnnotationTypePolyLine|PSPDFAnnotationTypePolygon|PSPDFAnnotationTypeStrikeOut|PSPDFAnnotationTypeSquiggly;
         [PspdfkitFlutterHelper unlockWithPasswordIfNeeded:document
                                                dictionary:configurationDictionary];
 
@@ -108,7 +109,6 @@
                 _pdfViewController.document.annotationSaveMode = PSPDFAnnotationSaveModeDisabled;
               } else if ([value isEqualToString:@"externalFile"]) {
                 _pdfViewController.document.annotationSaveMode = PSPDFAnnotationSaveModeExternalFile;
-                _pdfViewController.document.renderAnnotationTypes = PSPDFAnnotationTypeInk|PSPDFAnnotationTypeHighlight|PSPDFAnnotationTypeStamp|PSPDFAnnotationTypeNote|PSPDFAnnotationTypeFreeText|PSPDFAnnotationTypeLine|PSPDFAnnotationTypeSquare|PSPDFAnnotationTypeCircle|PSPDFAnnotationTypePolyLine|PSPDFAnnotationTypePolygon|PSPDFAnnotationTypeStrikeOut|PSPDFAnnotationTypeSquiggly;
               } else if ([value isEqualToString:@"embedded"]) {
                 _pdfViewController.document.annotationSaveMode = PSPDFAnnotationSaveModeEmbedded;
               } else if ([value isEqualToString:@"embeddedWithExternalFileAsFallback"]) {
