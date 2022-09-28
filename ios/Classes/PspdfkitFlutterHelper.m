@@ -125,6 +125,8 @@
                                             withProcessingMode:processingMode
                                             andDestinationPath:destinationPath
                                              forViewController:pdfViewController]);
+    } else if ([@"toggleDisplayAnnotations" isEqualToString:call.method]) {
+        result([PspdfkitFlutterHelper toggleDisplayAnnotationsForViewController:pdfViewController]);
     } else {
         result(FlutterMethodNotImplemented);
     }
@@ -701,6 +703,14 @@
     }
 
     return @(YES);
+}
+
++ (id)toggleDisplayAnnotationsForViewController:(PSPDFViewController *)pdfViewController {
+    PSPDFDocument *document = pdfViewController.document;
+    bool isEnabled = document.annotationsEnabled;
+    document.annotationsEnabled = !document.annotationsEnabled;
+    [document clearCache];
+    return @(isEnabled);
 }
 
 @end

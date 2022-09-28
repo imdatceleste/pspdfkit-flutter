@@ -13,47 +13,38 @@ import 'package:flutter/services.dart';
 class PspdfkitWidgetController {
   final MethodChannel _channel;
 
-  PspdfkitWidgetController(int id)
-      : _channel = MethodChannel('com.pspdfkit.widget.$id');
+  PspdfkitWidgetController(int id) : _channel = MethodChannel('com.pspdfkit.widget.$id');
 
   /// Sets the value of a form field by specifying its fully qualified field name.
-  Future<bool?> setFormFieldValue(
-          String value, String fullyQualifiedName) async =>
-      _channel.invokeMethod('setFormFieldValue', <String, dynamic>{
-        'value': value,
-        'fullyQualifiedName': fullyQualifiedName
-      });
+  Future<bool?> setFormFieldValue(String value, String fullyQualifiedName) async =>
+      _channel.invokeMethod('setFormFieldValue',
+          <String, dynamic>{'value': value, 'fullyQualifiedName': fullyQualifiedName});
 
   /// Gets the form field value by specifying its fully qualified name.
-  Future<String?> getFormFieldValue(String fullyQualifiedName) async =>
-      _channel.invokeMethod('getFormFieldValue',
-          <String, dynamic>{'fullyQualifiedName': fullyQualifiedName});
+  Future<String?> getFormFieldValue(String fullyQualifiedName) async => _channel.invokeMethod(
+      'getFormFieldValue', <String, dynamic>{'fullyQualifiedName': fullyQualifiedName});
 
   /// Applies Instant document JSON to the presented document.
-  Future<bool?> applyInstantJson(String annotationsJson) async =>
-      _channel.invokeMethod('applyInstantJson',
-          <String, String>{'annotationsJson': annotationsJson});
+  Future<bool?> applyInstantJson(String annotationsJson) async => _channel
+      .invokeMethod('applyInstantJson', <String, String>{'annotationsJson': annotationsJson});
 
   /// Exports Instant document JSON from the presented document.
-  Future<String?> exportInstantJson() async =>
-      _channel.invokeMethod('exportInstantJson');
+  Future<String?> exportInstantJson() async => _channel.invokeMethod('exportInstantJson');
 
   /// Adds the given annotation to the presented document.
   /// `jsonAnnotation` can either be a JSON string or a valid JSON Dictionary (iOS) / HashMap (Android).
   Future<bool?> addAnnotation(dynamic jsonAnnotation) async =>
-      _channel.invokeMethod(
-          'addAnnotation', <String, dynamic>{'jsonAnnotation': jsonAnnotation});
+      _channel.invokeMethod('addAnnotation', <String, dynamic>{'jsonAnnotation': jsonAnnotation});
 
   /// Removes the given annotation from the presented document.
   /// `jsonAnnotation` can either be a JSON string or a valid JSON Dictionary (iOS) / HashMap (Android).
-  Future<bool?> removeAnnotation(dynamic jsonAnnotation) async =>
-      _channel.invokeMethod('removeAnnotation',
-          <String, dynamic>{'jsonAnnotation': jsonAnnotation});
+  Future<bool?> removeAnnotation(dynamic jsonAnnotation) async => _channel
+      .invokeMethod('removeAnnotation', <String, dynamic>{'jsonAnnotation': jsonAnnotation});
 
   /// Returns a list of JSON dictionaries for all the annotations of the given `type` on the given `pageIndex`.
   Future<dynamic> getAnnotations(int pageIndex, String type) async =>
-      _channel.invokeMethod<dynamic>('getAnnotations',
-          <String, dynamic>{'pageIndex': pageIndex, 'type': type});
+      _channel.invokeMethod<dynamic>(
+          'getAnnotations', <String, dynamic>{'pageIndex': pageIndex, 'type': type});
 
   /// Returns a list of JSON dictionaries for all the unsaved annotations in the presented document.
   Future<dynamic> getAllUnsavedAnnotations() async =>
@@ -70,14 +61,19 @@ class PspdfkitWidgetController {
       });
 
   /// Imports annotations from the XFDF file at the given path.
-  Future<bool?> importXfdf(String xfdfPath) async => _channel
-      .invokeMethod('importXfdf', <String, String>{'xfdfPath': xfdfPath});
+  Future<bool?> importXfdf(String xfdfPath) async =>
+      _channel.invokeMethod('importXfdf', <String, String>{'xfdfPath': xfdfPath});
 
   /// Exports annotations to the XFDF file at the given path.
-  Future<bool?> exportXfdf(String xfdfPath) async => _channel
-      .invokeMethod('exportXfdf', <String, String>{'xfdfPath': xfdfPath});
+  Future<bool?> exportXfdf(String xfdfPath) async =>
+      _channel.invokeMethod('exportXfdf', <String, String>{'xfdfPath': xfdfPath});
 
   /// Saves the document back to its original location if it has been changed.
   /// If there were no changes to the document, the document file will not be modified.
   Future<bool?> save() async => _channel.invokeMethod('save');
+
+  /// Enables/disables the display of annotations.
+  /// You may need to call `applyInstantJson` after switching it on again
+  Future<bool?> toggleDisplayAnnotations() async =>
+      _channel.invokeMethod('toggleDisplayAnnotations');
 }
