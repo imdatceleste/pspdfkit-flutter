@@ -7,6 +7,7 @@ import android.view.View
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentContainerView
 import androidx.fragment.app.commit
+import com.pspdfkit.configuration.activity.PdfActivityConfiguration;
 import com.pspdfkit.document.formatters.DocumentJsonFormatter
 import com.pspdfkit.flutter.pspdfkit.util.DocumentJsonDataProvider
 import com.pspdfkit.flutter.pspdfkit.util.Preconditions.requireNotNullNotEmpty
@@ -364,6 +365,18 @@ internal class PSPDFKitView(
                     .subscribeOn(Schedulers.computation())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(result::success)
+            }
+            "toggleDisplayAnnotations" -> {
+                // noinspection checkResult
+                val activityConfiguration = pdfUiFragment.getConfiguration()
+                val enabled = activityConfiguration.getConfiguration().isAnnotationEditingEnabled()
+                val activityConfigurationBuilder = PdfActivityConfiguration.Builder(activityConfiguration)
+                if (enabled) {
+                    activityConfigurationBuilder.disableAnnotationEditing()
+                } else {
+                    activityConfigurationBuilder.enableAnnotationEditing()
+                }
+                pdfUiFragment.setConfiguration(activityConfigurationBuilder.build())
             }
             else -> result.notImplemented()
         }
