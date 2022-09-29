@@ -371,12 +371,15 @@ internal class PSPDFKitView(
                 val activityConfiguration = pdfUiFragment.getConfiguration()
                 val enabled = activityConfiguration.getConfiguration().isAnnotationEditingEnabled()
                 val activityConfigurationBuilder = PdfActivityConfiguration.Builder(activityConfiguration)
+                // val annoProvider = document.getAnnotationProvider()
+                // val annos = annoProvider.getAnnotationsOfType(AnnotationProvider.ALL_ANNOTATION_TYPES)
                 if (enabled) {
                     activityConfigurationBuilder.disableAnnotationEditing()
                 } else {
                     activityConfigurationBuilder.enableAnnotationEditing()
                 }
                 pdfUiFragment.setConfiguration(activityConfigurationBuilder.build())
+                document.invalidateCache()
                 result.success(true)
             }
             else -> result.notImplemented()
