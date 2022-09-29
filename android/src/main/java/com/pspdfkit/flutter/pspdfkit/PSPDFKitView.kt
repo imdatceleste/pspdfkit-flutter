@@ -377,6 +377,7 @@ internal class PSPDFKitView(
                     activityConfigurationBuilder.enableAnnotationEditing()
                 }
                 pdfUiFragment.setConfiguration(activityConfigurationBuilder.build())
+                result.success(true)
             }
             else -> result.notImplemented()
         }
