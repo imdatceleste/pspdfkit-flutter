@@ -76,6 +76,9 @@ const String iOSDocumentInfoOptions_Security = 'security';
 /// Document Permissions; set this to false to ignore them
 const String honorDocumentPermissions = 'honorDocumentPermissions';
 
+// Instant options
+const String enableInstantComments = 'enableInstantComments';
+
 /// Deprecated Options - These options will be removed in a future release.
 /// Please use the suggested alternatives instead.
 
@@ -182,3 +185,13 @@ const String showThumbnailBarScrollable = 'scrollable';
 
 @Deprecated('Directly use the String value instead.')
 const String showThumbnailBarNone = 'none';
+
+const String pdfGenerationConfigurationName = 'name';
+
+const String pdfGenerationConfigurationWidth = 'width';
+
+const String pdfGenerationConfigurationHeight = 'height';
+
+const String pdfGenerationConfigurationOverride = 'override';
+
+const String pdfGenerationConfigurationImagePath = 'imagePath';

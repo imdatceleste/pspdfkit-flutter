@@ -2,6 +2,7 @@ package com.pspdfkit.flutter.pspdfkit
 
 import android.content.Context
 import android.content.ContextWrapper
+import android.content.MutableContextWrapper
 import android.net.Uri
 import android.view.View
 import androidx.fragment.app.FragmentActivity
@@ -33,7 +34,7 @@ import org.json.JSONObject
 import java.io.ByteArrayOutputStream
 
 internal class PSPDFKitView(
-    context: Context,
+    val context: Context,
     id: Int,
     messenger: BinaryMessenger,
     documentPath: String? = null,
@@ -47,6 +48,7 @@ internal class PSPDFKitView(
         fragmentContainerView?.id = View.generateViewId()
         methodChannel = MethodChannel(messenger, "com.pspdfkit.widget.$id")
         methodChannel.setMethodCallHandler(this)
+
         val configurationAdapter = ConfigurationAdapter(context, configurationMap)
         val password = configurationAdapter.password
         val pdfConfiguration = configurationAdapter.build()
@@ -70,15 +72,15 @@ internal class PSPDFKitView(
 
         fragmentContainerView?.let {
             it.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
-                override fun onViewAttachedToWindow(view: View?) {
-                    (context as FragmentActivity).supportFragmentManager.commit {
+                override fun onViewAttachedToWindow(view: View) {
+                  getFragmentActivity(context).supportFragmentManager.commit {
                         add(it.id, pdfUiFragment)
                         setReorderingAllowed(true)
                     }
                 }
 
-                override fun onViewDetachedFromWindow(view: View?) {
-                    (context as FragmentActivity).supportFragmentManager.commit {
+                override fun onViewDetachedFromWindow(view: View) {
+                    getFragmentActivity(context).supportFragmentManager.commit {
                         remove(pdfUiFragment)
                         setReorderingAllowed(true)
                     }
@@ -382,6 +384,21 @@ internal class PSPDFKitView(
             }
             else -> result.notImplemented()
         }
+    }
+
+    // Get Fragment Activity from context
+    private fun getFragmentActivity(context: Context): FragmentActivity {
+       return when (context) {
+           is FragmentActivity -> {
+               context
+           }
+           is MutableContextWrapper -> {
+               getFragmentActivity(context.baseContext)
+           }
+           else -> {
+               throw IllegalStateException("Context is not a FragmentActivity")
+           }
+       }
     }
 
     companion object {
