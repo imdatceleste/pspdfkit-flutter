@@ -191,7 +191,6 @@
             message:@"syncAnnotations can only be called on Instant document"
             details:nil]);
         }
->>>>>>> master
     } else {
         result(FlutterMethodNotImplemented);
     }
