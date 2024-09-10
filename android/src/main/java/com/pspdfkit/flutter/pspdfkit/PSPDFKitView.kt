@@ -439,6 +439,7 @@ internal class PSPDFKitView(
                 pdfUiFragment.setConfiguration(activityConfigurationBuilder.build())
                 document.invalidateCache()
                 result.success(true)
+            }
             "setAnnotationPresetConfigurations" -> {
                 try {
                     val annotationConfigurations =
