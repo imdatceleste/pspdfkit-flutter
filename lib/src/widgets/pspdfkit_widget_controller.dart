@@ -84,4 +84,8 @@ abstract class PspdfkitWidgetController {
   /// pageIndex The index of the page. This is a zero-based index.
   /// Returns a [Future] that completes with the zoom scale of the given page.
   Future<double> getZoomScale(int pageIndex);
+
+  /// Enables/disables the display of annotations.
+  /// You may need to call `applyInstantJson` after switching it on again
+  Future<bool?> toggleDisplayAnnotations();
 }

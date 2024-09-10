@@ -100,6 +100,11 @@ class PspdfkitWidgetControllerNative extends PspdfkitWidgetController {
   Future<bool?> exportXfdf(String xfdfPath) async => _channel
       .invokeMethod('exportXfdf', <String, String>{'xfdfPath': xfdfPath});
 
+  /// Enables/disables the display of annotations.
+  /// You may need to call `applyInstantJson` after switching it on again
+  Future<bool?> toggleDisplayAnnotations() async =>
+      _channel.invokeMethod('toggleDisplayAnnotations');
+
   @override
   Future<bool?> save() async => _channel.invokeMethod('save');
 

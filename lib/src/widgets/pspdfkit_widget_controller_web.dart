@@ -121,4 +121,8 @@ class PspdfkitWidgetControllerWeb extends PspdfkitWidgetController {
   Future<double> getZoomScale(int pageIndex) {
     return pspdfkitInstance.getZoomScale(pageIndex);
   }
+
+  /// Enables/disables the display of annotations.
+  /// You may need to call `applyInstantJson` after switching it on again
+  Future<bool?> toggleDisplayAnnotations() => Future.value(true);
 }
