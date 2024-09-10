@@ -1,5 +1,9 @@
+import 'package:flutter/rendering.dart';
+
+import 'processor.dart';
+
 ///
-///  Copyright © 2018-2022 PSPDFKit GmbH. All rights reserved.
+///  Copyright © 2018-2024 PSPDFKit GmbH. All rights reserved.
 ///
 ///  THIS SOURCE CODE AND ANY ACCOMPANYING DOCUMENTATION ARE PROTECTED BY INTERNATIONAL COPYRIGHT LAW
 ///  AND MAY NOT BE RESOLD OR REDISTRIBUTED. USAGE IS BOUND TO THE PSPDFKIT LICENSE AGREEMENT.
@@ -7,7 +11,6 @@
 ///  This notice may not be removed from this file.
 ///
 ///
-part of pspdfkit;
 
 /// Represents a new PDF page of any type.
 class NewPage {

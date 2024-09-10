@@ -1,13 +1,11 @@
 ///
-///  Copyright © 2018-2022 PSPDFKit GmbH. All rights reserved.
+///  Copyright © 2018-2024 PSPDFKit GmbH. All rights reserved.
 ///
 ///  THIS SOURCE CODE AND ANY ACCOMPANYING DOCUMENTATION ARE PROTECTED BY INTERNATIONAL COPYRIGHT LAW
 ///  AND MAY NOT BE RESOLD OR REDISTRIBUTED. USAGE IS BOUND TO THE PSPDFKIT LICENSE AGREEMENT.
 ///  UNAUTHORIZED REPRODUCTION OR DISTRIBUTION IS SUBJECT TO CIVIL AND CRIMINAL PENALTIES.
 ///  This notice may not be removed from this file.
 ///
-part of pspdfkit;
-
 /// Configuration options available that can be set by the Flutter plugin.
 
 /// Document Interaction Options
@@ -76,6 +74,9 @@ const String iOSDocumentInfoOptions_Security = 'security';
 
 /// Document Permissions; set this to false to ignore them
 const String honorDocumentPermissions = 'honorDocumentPermissions';
+
+// Instant options
+const String enableInstantComments = 'enableInstantComments';
 
 /// Deprecated Options - These options will be removed in a future release.
 /// Please use the suggested alternatives instead.
@@ -183,3 +184,21 @@ const String showThumbnailBarScrollable = 'scrollable';
 
 @Deprecated('Directly use the String value instead.')
 const String showThumbnailBarNone = 'none';
+
+const String pdfGenerationConfigurationName = 'name';
+
+const String pdfGenerationConfigurationWidth = 'width';
+
+const String pdfGenerationConfigurationHeight = 'height';
+
+const String pdfGenerationConfigurationOverride = 'override';
+
+const String pdfGenerationConfigurationImagePath = 'imagePath';
+
+const String measurementUnit = 'measurementUnit';
+
+const String enableMeasurementMagnifier = 'enableMagnifier';
+
+const String enableMeasurementTools = 'enableMeasurementTools';
+
+const String enableMeasurementToolSnapping = 'enableMeasurementToolSnapping';

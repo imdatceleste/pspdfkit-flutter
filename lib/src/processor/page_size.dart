@@ -1,4 +1,6 @@
-///  Copyright © 2018-2022 PSPDFKit GmbH. All rights reserved.
+import 'package:flutter/painting.dart';
+
+///  Copyright © 2018-2024 PSPDFKit GmbH. All rights reserved.
 ///
 ///  THIS SOURCE CODE AND ANY ACCOMPANYING DOCUMENTATION ARE PROTECTED BY INTERNATIONAL COPYRIGHT LAW
 ///  AND MAY NOT BE RESOLD OR REDISTRIBUTED. USAGE IS BOUND TO THE PSPDFKIT LICENSE AGREEMENT.
@@ -6,7 +8,6 @@
 ///  This notice may not be removed from this file.
 ///
 ///
-part of pspdfkit;
 
 /// Standard sizes in PDF points according to http://www.prepressure.com/library/paper-size
 class PageSize {

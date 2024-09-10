@@ -1,5 +1,5 @@
 ///
-///  Copyright © 2018-2022 PSPDFKit GmbH. All rights reserved.
+///  Copyright © 2018-2024 PSPDFKit GmbH. All rights reserved.
 ///
 ///  THIS SOURCE CODE AND ANY ACCOMPANYING DOCUMENTATION ARE PROTECTED BY INTERNATIONAL COPYRIGHT LAW
 ///  AND MAY NOT BE RESOLD OR REDISTRIBUTED. USAGE IS BOUND TO THE PSPDFKIT LICENSE AGREEMENT.
@@ -12,200 +12,173 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'dart:io';
-import 'package:flutter/material.dart';
+import 'package:pspdfkit_flutter/src/pspdfkit_flutter_platform_interface.dart';
+import 'pspdfkit.dart';
 
-part 'src/processor/pdf_image_page.dart';
+export 'src/pdf_configuration.dart';
+export 'src/web/pspdfkit_web_configuration.dart';
+export 'src/types.dart';
+export 'src/web/models/models.dart';
+export 'src/configuration_options.dart';
+export 'src/toolbar/toolbar.dart';
+export 'src/widgets/pspdfkit_widget.dart'
+    if (dart.library.io) 'src/widgets/pspdfkit_widget.dart'
+    if (dart.library.html) 'src/widgets/pspdfkit_widget_web.dart';
+export 'src/widgets/pspdfkit_widget_controller.dart';
+export 'src/measurements/measurements.dart';
+export 'src/processor/processor.dart';
+export 'src/document/pdf_document.dart';
+export 'src/document/document_save_options.dart';
+export 'src/document/document_permissions.dart';
+export 'src/document/pdf_version.dart';
+export 'src/forms/forms.dart';
+export 'src/processor/annotation_processing_mode.dart';
+export 'src/annotations/annotation_types.dart';
 
-part 'android_permission_status.dart';
+part 'src/android_permission_status.dart';
 
-part 'configuration_options.dart';
+part 'src/pspdfkit_processor.dart';
 
-part 'src/processor/new_page.dart';
+part 'src/annotation_preset_configurations.dart';
 
-part 'src/processor/page_pattern.dart';
-
-part 'src/processor/page_position.dart';
-
-part 'src/processor/page_z_order.dart';
-
-part 'src/processor/pdf_page.dart';
-
-part 'src/processor/page_size.dart';
-
-part 'pspdfkit_processor.dart';
+part 'src/annotations/annotation_tools.dart';
 
 /// PSPDFKit plugin to load PDF and image documents on both platform iOS and Android.
 class Pspdfkit {
-  static MethodChannel? _privateChannel;
-
-  static MethodChannel get _channel {
-    if (_privateChannel == null) {
-      _privateChannel = const MethodChannel('com.pspdfkit.global');
-      _privateChannel!.setMethodCallHandler(_platformCallHandler);
-    }
-    return _privateChannel!;
-  }
-
   /// Gets the PSPDFKit framework version.
-  static Future<String?> get frameworkVersion async =>
-      _channel.invokeMethod('frameworkVersion');
+  static Future<String?> get frameworkVersion =>
+      PspdfkitFlutterPlatform.instance.getFrameworkVersion();
 
   /// Sets the license key.
-  static Future<void> setLicenseKey(String licenseKey) async =>
-      await _channel.invokeMethod(
-          'setLicenseKey', <String, String>{'licenseKey': licenseKey});
+  /// @param licenseKey The license key to be used.
+  static Future<void> setLicenseKey(String? licenseKey) =>
+      PspdfkitFlutterPlatform.instance.setLicenseKey(licenseKey);
 
   /// Sets the license keys for both platforms.
-  static Future<void> setLicenseKeys(
-          String? androidLicenseKey, String? iOSLicenseKey) async =>
-      await _channel.invokeMethod('setLicenseKeys', <String, String?>{
-        'androidLicenseKey': androidLicenseKey,
-        'iOSLicenseKey': iOSLicenseKey,
-      });
+  static Future<void> setLicenseKeys(String? androidLicenseKey,
+          String? iOSLicenseKey, String? webLicenseKey) async =>
+      PspdfkitFlutterPlatform.instance
+          .setLicenseKeys(androidLicenseKey, iOSLicenseKey, webLicenseKey);
 
   /// Loads a [document] with a supported format using a given [configuration].
   static Future<bool?> present(String document,
-          [dynamic configuration]) async =>
-      await _channel.invokeMethod('present', <String, dynamic>{
-        'document': document,
-        'configuration': configuration
-      });
+          {dynamic configuration,
+          MeasurementScale? measurementScale,
+          MeasurementPrecision? measurementPrecision}) async =>
+      PspdfkitFlutterPlatform.instance
+          .present(document, configuration: configuration);
 
-  /// Loads an Instant document from a server [serverUrl] with using a[jwt] in a native Instant PDFViewer.
+  /// Loads an Instant document from a server [serverUrl] with using a [jwt] in a native Instant PDFViewer.
   ///
   /// The [serverUrl] is the URL of the server that hosts the Instant document.
   /// The [jwt] is the JSON Web Token used to authenticate the user. It also contains the document ID.
   /// The [configuration] is a map of PDFViewer configurations.
   /// Returns true if the document was successfully opened.
   /// Returns false if the document could not be opened.
-  ///
   static Future<bool?> presentInstant(String serverUrl, String jwt,
           [dynamic configuration]) async =>
-      await _channel.invokeMethod('presentInstant', <String, dynamic>{
-        'serverUrl': serverUrl,
-        'jwt': jwt,
-        'configuration': configuration
-      });
+      PspdfkitFlutterPlatform.instance
+          .presentInstant(serverUrl, jwt, configuration);
 
   /// Sets the value of a form field by specifying its fully qualified field name.
   static Future<bool?> setFormFieldValue(
           String value, String fullyQualifiedName) async =>
-      _channel.invokeMethod('setFormFieldValue', <String, dynamic>{
-        'value': value,
-        'fullyQualifiedName': fullyQualifiedName
-      });
+      PspdfkitFlutterPlatform.instance
+          .setFormFieldValue(value, fullyQualifiedName);
 
   /// Gets the form field value by specifying its fully qualified name.
   static Future<String?> getFormFieldValue(String fullyQualifiedName) async =>
-      _channel.invokeMethod('getFormFieldValue',
-          <String, dynamic>{'fullyQualifiedName': fullyQualifiedName});
+      PspdfkitFlutterPlatform.instance.getFormFieldValue(fullyQualifiedName);
 
   /// Applies Instant document JSON to the presented document.
   static Future<bool?> applyInstantJson(String annotationsJson) async =>
-      _channel.invokeMethod('applyInstantJson',
-          <String, String>{'annotationsJson': annotationsJson});
+      PspdfkitFlutterPlatform.instance.applyInstantJson(annotationsJson);
 
   /// Exports Instant document JSON from the presented document.
   static Future<String?> exportInstantJson() async =>
-      _channel.invokeMethod('exportInstantJson');
+      PspdfkitFlutterPlatform.instance.exportInstantJson();
 
   /// Adds the given annotation to the presented document.
   /// `jsonAnnotation` can either be a JSON string or a valid JSON Dictionary (iOS) / HashMap (Android).
   static Future<bool?> addAnnotation(dynamic jsonAnnotation) async =>
-      _channel.invokeMethod(
-          'addAnnotation', <String, dynamic>{'jsonAnnotation': jsonAnnotation});
+      PspdfkitFlutterPlatform.instance.addAnnotation(jsonAnnotation);
 
   /// Removes the given annotation from the presented document.
   /// `jsonAnnotation` can either be a JSON string or a valid JSON Dictionary (iOS) / HashMap (Android).
   static Future<bool?> removeAnnotation(dynamic jsonAnnotation) async =>
-      _channel.invokeMethod('removeAnnotation',
-          <String, dynamic>{'jsonAnnotation': jsonAnnotation});
+      PspdfkitFlutterPlatform.instance.removeAnnotation(jsonAnnotation);
 
   /// Returns a list of JSON dictionaries for all the annotations of the given `type` on the given `pageIndex`.
   static Future<dynamic> getAnnotations(int pageIndex, String type) async =>
-      _channel.invokeMethod<dynamic>('getAnnotations',
-          <String, dynamic>{'pageIndex': pageIndex, 'type': type});
+      PspdfkitFlutterPlatform.instance.getAnnotations(pageIndex, type);
 
   /// Returns a list of JSON dictionaries for all the unsaved annotations in the presented document.
   static Future<dynamic> getAllUnsavedAnnotations() async =>
-      _channel.invokeMethod<dynamic>('getAllUnsavedAnnotations');
+      PspdfkitFlutterPlatform.instance.getAllUnsavedAnnotations();
 
   /// Processes annotations of the given type with the provided processing
   /// mode and stores the PDF at the given destination path.
   static Future<bool?> processAnnotations(
-          String type, String processingMode, String destinationPath) async =>
-      _channel.invokeMethod('processAnnotations', <String, String>{
-        'type': type,
-        'processingMode': processingMode,
-        'destinationPath': destinationPath
-      });
+    AnnotationType type,
+    AnnotationProcessingMode processingMode,
+    String destinationPath,
+  ) async =>
+      PspdfkitFlutterPlatform.instance
+          .processAnnotations(type, processingMode, destinationPath);
 
   /// Imports annotations from the XFDF file at the given path.
-  static Future<bool?> importXfdf(String xfdfPath) async => _channel
-      .invokeMethod('importXfdf', <String, String>{'xfdfPath': xfdfPath});
+  static Future<bool?> importXfdf(String xfdfPath) async =>
+      PspdfkitFlutterPlatform.instance.importXfdf(xfdfPath);
 
   /// Exports annotations to the XFDF file at the given path.
-  static Future<bool?> exportXfdf(String xfdfPath) async => _channel
-      .invokeMethod('exportXfdf', <String, String>{'xfdfPath': xfdfPath});
+  static Future<bool?> exportXfdf(String xfdfPath) async =>
+      PspdfkitFlutterPlatform.instance.exportXfdf(xfdfPath);
 
   /// Saves the document back to its original location if it has been changed.
   /// If there were no changes to the document, the document file will not be modified.
-  static Future<bool?> save() async => _channel.invokeMethod('save');
+  static Future<bool?> save() async => PspdfkitFlutterPlatform.instance.save();
 
-  /// Sets a delay for synchronising local changes to the Instant server.
+  /// Sets a delay for synchronizing local changes to the Instant Server (PSPDFKit Document Engine).
   /// [delay] is the delay in milliseconds.
   static Future<bool?> setDelayForSyncingLocalChanges(double delay) async =>
-      _channel.invokeMethod(
-          'setDelayForSyncingLocalChanges', <String, dynamic>{'delay': delay});
+      PspdfkitFlutterPlatform.instance.setDelayForSyncingLocalChanges(delay);
 
-  /// Enable or disable listening to Instant server changes.
+  /// Enable or disable listening to Instant Server (PSPDFKit Document Engine) changes.
   static Future<bool?> setListenToServerChanges(bool listen) async =>
-      _channel.invokeMethod(
-          'setListenToServerChanges', <String, dynamic>{'listen': listen});
+      PspdfkitFlutterPlatform.instance.setListenToServerChanges(listen);
 
-  /// Manually triggers synchronisation.
+  /// Manually triggers synchronization.
   static Future<bool?> syncAnnotations() async =>
-      _channel.invokeMethod('syncAnnotations');
+      PspdfkitFlutterPlatform.instance.syncAnnotations();
 
   /// Checks the external storage permission for writing on Android only.
-  static Future<bool?> checkAndroidWriteExternalStoragePermission() async {
-    return _channel.invokeMethod(
-        'checkPermission', {'permission': 'WRITE_EXTERNAL_STORAGE'});
-  }
+  static Future<bool?> checkAndroidWriteExternalStoragePermission() =>
+      PspdfkitFlutterPlatform.instance
+          .checkAndroidWriteExternalStoragePermission();
 
   /// Requests the external storage permission for writing on Android only.
   static Future<AndroidPermissionStatus>
-      requestAndroidWriteExternalStoragePermission() async {
-    final dynamic status = await _channel.invokeMethod<dynamic>(
-        'requestPermission', {'permission': 'WRITE_EXTERNAL_STORAGE'});
-
-    return status is int
-        ? _intToAndroidPermissionStatus(status)
-        : status is bool
-            ? (status
-                ? AndroidPermissionStatus.authorized
-                : AndroidPermissionStatus.denied)
-            : AndroidPermissionStatus.notDetermined;
-  }
+      requestAndroidWriteExternalStoragePermission() async =>
+          PspdfkitFlutterPlatform.instance
+              .requestAndroidWriteExternalStoragePermission();
 
   /// Opens the Android settings.
   static Future<void> openAndroidSettings() async =>
-      _channel.invokeMethod('openSettings');
+      PspdfkitFlutterPlatform.instance.openAndroidSettings();
 
-  static AndroidPermissionStatus _intToAndroidPermissionStatus(int status) {
-    switch (status) {
-      case 0:
-        return AndroidPermissionStatus.notDetermined;
-      case 1:
-        return AndroidPermissionStatus.denied;
-      case 2:
-        return AndroidPermissionStatus.authorized;
-      case 3:
-        return AndroidPermissionStatus.deniedNeverAsk;
-      default:
-        return AndroidPermissionStatus.notDetermined;
-    }
-  }
+  static Future<bool?> setAnnotationPresetConfigurations(
+          Map<String, dynamic> configurations) async =>
+      PspdfkitFlutterPlatform.instance
+          .setAnnotationPresetConfigurations(configurations);
+
+  /// Get the annotation author name.
+  static String authorName = PspdfkitFlutterPlatform.instance.authorName;
+
+  /// Get default Web main toolbar items.
+  /// - Returns a list of default [PspdfkitWebToolbarItem] items when called on web.
+  /// - Returns an empty list on other platforms.
+  static List<PspdfkitWebToolbarItem> get defaultWebToolbarItems =>
+      PspdfkitFlutterPlatform.instance.defaultWebToolbarItems;
 
   /// Path to the temporary directory on the device that is not backed up and is
   /// suitable for storing caches of downloaded files.
@@ -221,115 +194,77 @@ class Pspdfkit {
   ///
   /// Throws a `MissingPlatformDirectoryException` if the system is unable to
   /// provide the directory.
-  static Future<Directory> getTemporaryDirectory() async {
-    final String? path =
-        await _channel.invokeMethod<String>('getTemporaryDirectory');
-    if (path == null) {
-      throw MissingPlatformDirectoryException(
-          'Unable to get temporary directory');
-    }
-    return Directory(path);
+  static Future<Directory> getTemporaryDirectory() =>
+      PspdfkitFlutterPlatform.instance.getTemporaryDirectory();
+
+  /// onPause callback for FlutterPdfActivity. Only available on Android.
+  static set flutterPdfActivityOnPause(
+      VoidCallback? flutterPdfActivityOnPause) {
+    PspdfkitFlutterPlatform.instance.flutterPdfActivityOnPause =
+        flutterPdfActivityOnPause;
   }
 
-  /// onPAuse callback for FlutterPdfActivity
-  static void Function()? flutterPdfActivityOnPause;
+  /// called when a PdfFragment is added. Only available on Android.
+  static set flutterPdfFragmentAdded(VoidCallback? flutterPdfFragmentAdded) {
+    PspdfkitFlutterPlatform.instance.flutterPdfFragmentAdded =
+        flutterPdfFragmentAdded;
+  }
 
-  /// ViewControllerWillDismiss callback for PDFViewController
-  static void Function()? pdfViewControllerWillDismiss;
+  /// Called when a document is loaded.
+  static set pspdfkitDocumentLoaded(
+      PspdfkitDocumentLoadedCallback? pspdfkitDocumentLoaded) {
+    PspdfkitFlutterPlatform.instance.flutterPdfDocumentLoaded =
+        pspdfkitDocumentLoaded;
+  }
 
-  /// ViewControllerDidDismiss callback for PDFViewController
-  static void Function()? pdfViewControllerDidDismiss;
+  /// ViewControllerWillDismiss callback for PDFViewController. Only available on iOS.
+  static set pdfViewControllerWillDismiss(
+      VoidCallback? pdfViewControllerWillDismiss) {
+    PspdfkitFlutterPlatform.instance.pdfViewControllerWillDismiss =
+        pdfViewControllerWillDismiss;
+  }
+
+  /// ViewControllerDidDismiss callback for PDFViewController. Only available on iOS.
+  static set pdfViewControllerDidDismiss(VoidCallback? callback) {
+    PspdfkitFlutterPlatform.instance.pdfViewControllerDidDismiss = callback;
+  }
 
   /// Called when instant synchronization starts.
-  static void Function(String? documentId)? instantSyncStarted;
+  static set instantSyncStarted(InstantSyncStartedCallback? callback) {
+    PspdfkitFlutterPlatform.instance.instantSyncStarted = callback;
+  }
 
   /// Called when instant synchronization ends.
-  static void Function(String? documentId)? instantSyncFinished;
+  static set instantSyncFinished(InstantSyncFinishedCallback? callback) {
+    PspdfkitFlutterPlatform.instance.instantSyncFinished = callback;
+  }
 
   /// Called when instant synchronization fails.
-  static void Function(String? documentId, String? error)? instantSyncFailed;
+  static set instantSyncFailed(InstantSyncFailedCallback? callback) {
+    PspdfkitFlutterPlatform.instance.instantSyncFailed = callback;
+  }
 
   /// Called when instant authentication is done.
-  static void Function(String documentId, String? validJWT)?
-      instantAuthenticationFinished;
+  static set instantAuthenticationFinished(
+      InstantAuthenticationFinishedCallback? callback) {
+    PspdfkitFlutterPlatform.instance.instantAuthenticationFinished = callback;
+  }
 
   /// Called when instant authentication fails.
-  static void Function(String? documentId, String? error)?
-      instantAuthenticationFailed;
+  static set instantAuthenticationFailed(
+      InstantAuthenticationFailedCallback? callback) {
+    PspdfkitFlutterPlatform.instance.instantAuthenticationFailed = callback;
+  }
 
-  /// Only available on iOS.
-  /// Called when instant document download is done.
-  static void Function(String? documentId)? instantDownloadFinished;
+  /// Called when instant document download is done.Only available on iOS.
+  static set instantDownloadFinished(
+      InstantDownloadFinishedCallback? callback) {
+    PspdfkitFlutterPlatform.instance.instantDownloadFinished = callback;
+  }
 
-  /// Only available on iOS.
-  /// Called when instant document download fails.
-  static void Function(String? documentId, String? error)?
-      instantDownloadFailed;
-
-  static Future<void> _platformCallHandler(MethodCall call) {
-    try {
-      switch (call.method) {
-        case 'flutterPdfActivityOnPause':
-          flutterPdfActivityOnPause?.call();
-          break;
-        case 'pdfViewControllerWillDismiss':
-          pdfViewControllerWillDismiss?.call();
-          break;
-        case 'pdfViewControllerDidDismiss':
-          pdfViewControllerDidDismiss?.call();
-          break;
-        case 'pspdfkitInstantSyncStarted':
-          instantSyncStarted?.call(call.arguments as String);
-          break;
-        case 'pspdfkitInstantSyncFinished':
-          instantSyncFinished?.call(call.arguments as String);
-          break;
-        case 'pspdfkitInstantSyncFailed':
-          {
-            final Map<dynamic, dynamic> map =
-                call.arguments as Map<dynamic, dynamic>;
-            instantSyncFailed?.call(
-                map['documentId'] as String, map['error'] as String);
-            break;
-          }
-        case 'pspdfkitInstantAuthenticationFinished':
-          {
-            final Map<dynamic, dynamic> map =
-                call.arguments as Map<dynamic, dynamic>;
-            instantAuthenticationFinished?.call(
-                map['documentId'] as String, map['jwt'] as String);
-            break;
-          }
-        case 'pspdfkitInstantAuthenticationFailed':
-          {
-            final Map<dynamic, dynamic> arguments =
-                call.arguments as Map<dynamic, dynamic>;
-            instantAuthenticationFailed?.call(arguments['documentId'] as String,
-                arguments['error'] as String);
-            break;
-          }
-        case 'pspdfkitInstantDownloadFinished':
-          instantDownloadFinished?.call(call.arguments as String);
-          break;
-        case 'pspdfkitInstantDownloadFailed':
-          {
-            final Map<dynamic, dynamic> arguments =
-                call.arguments as Map<dynamic, dynamic>;
-            instantDownloadFailed?.call(arguments['documentId'] as String,
-                arguments['error'] as String);
-            break;
-          }
-        default:
-          if (kDebugMode) {
-            print('Unknown method ${call.method} ');
-          }
-      }
-    } catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
-    }
-    return Future.value();
+  /// Called when instant document download fails. Only available on iOS.
+  static set instantDownloadFailed(InstantDownloadFailedCallback? callback) {
+    PspdfkitFlutterPlatform.instance.instantDownloadFailed = callback;
   }
 }
 

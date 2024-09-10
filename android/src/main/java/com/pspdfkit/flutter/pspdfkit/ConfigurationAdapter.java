@@ -1,5 +1,5 @@
 /*
- *   Copyright © 2018-2022 PSPDFKit GmbH. All rights reserved.
+ *   Copyright © 2018-2024 PSPDFKit GmbH. All rights reserved.
  *
  *   THIS SOURCE CODE AND ANY ACCOMPANYING DOCUMENTATION ARE PROTECTED BY INTERNATIONAL COPYRIGHT LAW
  *   AND MAY NOT BE RESOLD OR REDISTRIBUTED. USAGE IS BOUND TO THE PSPDFKIT LICENSE AGREEMENT.
@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StyleRes;
 
+import com.pspdfkit.annotations.measurements.MeasurementValueConfiguration;
 import com.pspdfkit.configuration.PdfConfiguration;
 import com.pspdfkit.configuration.activity.PdfActivityConfiguration;
 import com.pspdfkit.configuration.activity.ThumbnailBarMode;
@@ -29,6 +30,8 @@ import com.pspdfkit.configuration.page.PageScrollMode;
 import com.pspdfkit.configuration.settings.SettingsMenuItemType;
 import com.pspdfkit.configuration.sharing.ShareFeatures;
 import com.pspdfkit.configuration.theming.ThemeMode;
+import com.pspdfkit.flutter.pspdfkit.util.MeasurementHelper;
+import com.pspdfkit.preferences.PSPDFKitPreferences;
 import com.pspdfkit.ui.special_mode.controller.AnnotationTool;
 
 import java.util.ArrayList;
@@ -36,6 +39,7 @@ import java.util.List;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 class ConfigurationAdapter {
     private static final String LOG_TAG = "ConfigurationAdapter";
@@ -45,7 +49,6 @@ class ConfigurationAdapter {
     private static final String PAGE_TRANSITION = "pageTransition";
     private static final String ENABLE_TEXT_SELECTION = "enableTextSelection";
     private static final String DISABLE_AUTOSAVE = "disableAutosave";
-
 
     // Document Presentation Options
     private static final String PAGE_MODE = "pageMode";
@@ -181,6 +184,14 @@ class ConfigurationAdapter {
 
     // Instant Options
     private static final String ENABLE_INSTANT_COMMENTS = "enableInstantComments";
+
+    // Measurement tools options
+    private static final String ENABLED_MEASUREMENT_TOOLS = "enableMeasurementTools";
+    private static final String ENABLE_MAGNIFIER = "enableMagnifier";
+    private static final String ENABLED_MEASUREMENT_TOOL_SNAPPING = "enableMeasurementToolSnapping";
+    private  static final  String MAXIMUM_ZOOM_SCALE = "maximumZoomScale";
+    private static final String MINIMUM_ZOOM_SCALE = "minimumZoomScale";
+    private static final  String DEFAULT_ZOOM_SCALE = "defaultZoomScale";
 
     @NonNull
     private final PdfActivityConfiguration.Builder configuration;
@@ -363,6 +374,32 @@ class ConfigurationAdapter {
             key = getKeyOfType(configurationMap, ENABLE_INSTANT_COMMENTS, Boolean.class);
             if (key != null) {
                 enableInstantComments = (boolean) configurationMap.get(key);
+            }
+
+            key = getKeyOfType(configurationMap, ENABLE_MAGNIFIER, Boolean.class);
+            if (key != null) {
+                configureMagnifierEnabled((Boolean) configurationMap.get(key));
+            }
+
+            key = getKeyOfType(configurationMap, ENABLED_MEASUREMENT_TOOLS, Boolean.class);
+            if (key != null) {
+                configureMeasurementToolsEnabled((Boolean) configurationMap.get(key));
+            }
+
+            key = getKeyOfType(configurationMap, ENABLED_MEASUREMENT_TOOL_SNAPPING, Boolean.class);
+            if (key != null) {
+                configureMeasurementToolSnappingEnabled(context,(Boolean) configurationMap.get(key));
+            }
+
+            key = getKeyOfType(configurationMap, MAXIMUM_ZOOM_SCALE, Double.class);
+            if (key != null) {
+                    configuration.maxZoomScale((float) configurationMap.get(key));
+            }
+
+            key = getKeyOfType(configurationMap, DEFAULT_ZOOM_SCALE, Double.class);
+            if (key != null) {
+                double value = (double) configurationMap.get(key);
+                configuration.startZoomScale((float) value);
             }
         }
     }
@@ -725,6 +762,18 @@ class ConfigurationAdapter {
 
     private void configureAutosaveEnabled(boolean autosaveEnabled) {
         configuration.autosaveEnabled(autosaveEnabled);
+    }
+
+    private void configureMeasurementToolsEnabled(Boolean aBoolean) {
+        configuration.setMeasurementToolsEnabled(aBoolean);
+    }
+
+    private void configureMagnifierEnabled(Boolean aBoolean) {
+        configuration.enableMagnifier(aBoolean);
+    }
+
+    private void configureMeasurementToolSnappingEnabled(Context context,Boolean aBoolean) {
+        PSPDFKitPreferences.get(context).setMeasurementSnappingEnabled(aBoolean);
     }
 
     private <T> boolean containsKeyOfType(@NonNull HashMap<String, Object> configurationMap,

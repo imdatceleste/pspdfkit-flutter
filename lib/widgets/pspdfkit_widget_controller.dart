@@ -1,5 +1,5 @@
 ///
-///  Copyright © 2018-2022 PSPDFKit GmbH. All rights reserved.
+///  Copyright © 2018-2023 PSPDFKit GmbH. All rights reserved.
 ///
 ///  THIS SOURCE CODE AND ANY ACCOMPANYING DOCUMENTATION ARE PROTECTED BY INTERNATIONAL COPYRIGHT LAW
 ///  AND MAY NOT BE RESOLD OR REDISTRIBUTED. USAGE IS BOUND TO THE PSPDFKIT LICENSE AGREEMENT.
@@ -7,6 +7,7 @@
 ///  This notice may not be removed from this file.
 ///
 
+/*
 import 'dart:async';
 import 'package:flutter/services.dart';
 
@@ -77,3 +78,6 @@ class PspdfkitWidgetController {
   Future<bool?> toggleDisplayAnnotations() async =>
       _channel.invokeMethod('toggleDisplayAnnotations');
 }
+*/
+@Deprecated('Use `package:pspdfkit_flutter/pspdfkit.dart` instead')
+export '../src/widgets/pspdfkit_widget_controller.dart';

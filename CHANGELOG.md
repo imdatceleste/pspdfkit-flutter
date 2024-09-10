@@ -1,11 +1,104 @@
 ## Newest Release
 
+### 3.12.0 - 30 Jul 2024
+
+- Adds `zoomToRect` and `getVisibleRect` APIs to PspdfkitWidgetController. (J#HYB-429)
+- Added `processAnnotations` API support for Android. (J#HYB-426)
+- Updated the `processAnnotations` parameter types to enums `AnnotationType` and `AnnotationProcessingMode`. (#44722)
+- Updates for PSPDFKit 2024.4.0 for Android. (J#HYB-422)
+- Updates for PSPDFKit 13.8.0 for iOS. (J#HYB-422)
+
+## Previous Releases
+
+### 3.11.0 - 21 Jun 2024
+
+- Adds API to get form filed properties to PdfDocument. (J#HYB-169)
+- Adds instant synchronization support on Web. (J#HYB-377)
+
+### 3.10.1 - 28 May 2024
+
+- Fixes issue where ViewUtils.generateViewId() cannot be resolved. (J#HYB-379)
+
+### 3.10.0 - 03 May 2024
+
+- Adds APIs to get page information such as size, rotation, and label. (J#HYB-195)
+- Adds document load callbacks to `PspdfkitWidget`. (J#HYB-195)
+- Adds page change callback to `PspdfkitWidget`. (J#HYB-195)
+- Adds support for exporting document as binary data. (J#HYB-337)
+- Updates for PSPDFKit 2024.2.1 for Android.
+- Updates for PSPDFKit 13.4.1 for iOS.
+
+### 3.9.1 - 12 Apr 2024
+
+- Downgrades to AGP 7.* for backward compatibility (J#HYB-290)
+- Allow null value for `Pspdfkit.setLicenseKey` (J#HYB-294)
+- Updates for PSPDFKit 2024.2.1 for Android (J#HYB-303)
+
+### 3.9.0 - 22 Mar 2024
+
+- Adds annotation toolbar customization for iOS and Android. (J#HYB-209)
+- Adds support for `MeasurementValueConfiguration` to replace `setMeasurementScale` and `setMeasurementPrecision`. (J#HYB-206)
+- Updates for PSPDFKit 13.3.3 for iOS. (#43792)
+- Updates for PSPDFKit 2024.1.2 for Android. (#43792)
+- Fixes events callback functions not being triggered on Web. (J#HYB-221)
+- Fixes blank page when an annotation toolbar item is selected on Web. (#43792)
+
+### 3.8.2 - 27 Feb 2024
+
+- Updates for PSPDFKit 13.3.1 for iOS. (#43550)
+- Fixes issue where PSPDFKit for Flutter does not work on web with Flutter SDK version 13.19.0 (J#HYB-216)
+- Fixes issue where annotation toolbar items are not being displayed on Web. (J#HYB-217)
+
+### 3.8.1 - 14 Feb 2024
+
+- Fixes callbacks when Pspdfkit.present() is used. (J#HYB-204)
+
+### 3.8.0 - 06 Feb 2024
+
+- Adds Flutter for Web support. (#42151)
+- Replaces configuration `Map` with a dedicated `PdfConfiguration` class. (#42191)
+- Deprecates imports for `package:pspdfkit_flutter/widgets/pspdfkit_widget.dart` and `package:pspdfkit_flutter/widgets/pspdfkit_widget_controller.dart`.
+    Use `package:pspdfkit_flutter/pspdfkit.dart` instead. (#43254)
+- Updates for PSPDFKit 2024.1.0 for Android. (#43305)
+- Updates for PSPDFKit 13.3.0 for iOS. (#43305)
+- Compile SDK version 34 is now required on Android. (#43305) 
+
+### 3.7.2 - 12 Jan 2024
+
+- Adds `flutterPdfFragmentAdded` callback for Android. (#42631)
+- Updates FlutterAppCompatActivity to Support Flutter 3.16.0. (#42767)
+
+### 3.7.1 - 18 Oct 2023
+
+- Fixes issue where iOS Appstore upload fails due to PSPDFKit Flutter missing "CFBundleShortVersionString" key. (#42166)
+- Fixes issue where Plugin returned "Document is missing or invalid" during pdfViewControllerWillDismiss events. (#42255)
+
+### 3.7.0 - 07 Sep 2023
+
+- Adds annotation preset customization. (#41669)
+- Updates for PSPDFKit 8.8.1 for Android. (#41910)
+- Updates for PSPDFKit 12.3.1 for iOS. (#41910)
+- Updates the deployment target to iOS 15. (#39956)
+- Updates example catalog with PspdfkitWidget usage. (#40861)
+
+### 3.6.0 - 08 May 2023
+
+- Adds measurement tools. (#39806)
+- Updates for PSPDFKit 8.6.0 for Android. (#39501)
+- Updates for PSPDFKit 12.2 for iOS. (#39995)
+
+### 3.5.1 - 15 Mar 2023
+
+- Updates iOS license initialization in the example catalog. (#38999)
+- Updates Instant web demo links. (#39018)
+- Updates for PSPDFKit 8.5.1 for Android. (#39090)
+- Updates for PSPDFKit 12.1.2 for iOS. (#39090)
+
 ### 3.5.0 - 17 Jan 2023
+
 - Adds Instant Synchronization support. (#37675) 
 - Updates for PSPDFKit 8.5 for Android. (#38136)
 - Updates for PSPDFKit 12.0.2 for iOS. (#38136)
-
-## Previous Releases
 
 ### 3.4.1 - 18 Nov 2022
 
@@ -44,7 +137,7 @@
 
 ### 3.2.0 - 14 Feb 2022
 
-- This release requires you to update your Android project's `compileSdkVersion` to version 31. Please refer to [our migration guide](https://pspdfkit.com/guides/flutter/migration-guides/flutter-3-2-0-migration-guide) for this release.
+- This release requires you to update your Android project's `compileSdkVersion` to version 31. Please refer to [our migration guide](https://pspdfkit.com/guides/flutter/migration-guides/flutter-3-2-migration-guide/) for this release.
 - PSPDFKit now requires Flutter 2.10.1 or later. (#33016)
 - Adds a new configuration option to disable autosave. (#32857)
 - Adds a new example illustrating manual saving of documents with autosave disabled. (#32857)

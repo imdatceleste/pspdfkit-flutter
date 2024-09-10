@@ -1,4 +1,4 @@
-#   Copyright © 2019-2022 PSPDFKit GmbH. All rights reserved.
+#   Copyright © 2019-2024 PSPDFKit GmbH. All rights reserved.
 #
 #   THIS SOURCE CODE AND ANY ACCOMPANYING DOCUMENTATION ARE PROTECTED BY INTERNATIONAL COPYRIGHT LAW
 #   AND MAY NOT BE RESOLD OR REDISTRIBUTED. USAGE IS BOUND TO THE PSPDFKIT LICENSE AGREEMENT.
@@ -15,10 +15,6 @@ analyzer:
     missing_return: error
     dead_code: warning
 #    avoid_print: false
-
-  strong-mode:
-    implicit-casts: false
-    implicit-dynamic: false
 
 linter:
   rules:
