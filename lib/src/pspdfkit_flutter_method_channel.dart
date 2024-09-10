@@ -203,6 +203,11 @@ class MethodChannelPspdfkitFlutter extends PspdfkitFlutterPlatform {
         'checkPermission', {'permission': 'WRITE_EXTERNAL_STORAGE'});
   }
 
+  /// Enables/disables the display of annotations.
+  /// You may need to call `applyInstantJson` after switching it on again
+  Future<bool?> toggleDisplayAnnotations() async =>
+      methodChannel.invokeMethod('toggleDisplayAnnotations');
+
   /// Requests the external storage permission for writing on Android only.
   @override
   Future<AndroidPermissionStatus>
