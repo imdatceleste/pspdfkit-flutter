@@ -61,7 +61,8 @@ internal class PSPDFKitView(
     private var fragmentContainerView: FragmentContainerView? = FragmentContainerView(context)
     private val methodChannel: MethodChannel
     private val pdfUiFragment: PdfUiFragment
-
+    private var fragmentCallbacks: FlutterPdfUiFragmentCallbacks? = null
+    
     init {
         fragmentContainerView?.id = View.generateViewId()
         methodChannel = MethodChannel(messenger, "com.pspdfkit.widget.$id")
@@ -94,8 +95,11 @@ internal class PSPDFKitView(
                     .build()
             }
         }
-        getFragmentActivity(context).supportFragmentManager.registerFragmentLifecycleCallbacks(FlutterPdfUiFragmentCallbacks(methodChannel,
-            measurementValueConfigurations, messenger), true)
+        fragmentCallbacks = FlutterPdfUiFragmentCallbacks(methodChannel,
+            measurementValueConfigurations, messenger)
+        fragmentCallbacks?.let {
+            getFragmentActivity(context).supportFragmentManager.registerFragmentLifecycleCallbacks(it, true)
+        }
         getFragmentActivity(context).supportFragmentManager.registerFragmentLifecycleCallbacks( object : FragmentManager.FragmentLifecycleCallbacks() {
             override fun onFragmentAttached(
                 fm: FragmentManager,
@@ -138,6 +142,10 @@ internal class PSPDFKitView(
 
     override fun dispose() {
         fragmentContainerView = null
+        fragmentCallbacks?.let {
+            getFragmentActivity(context).supportFragmentManager.unregisterFragmentLifecycleCallbacks(it)
+        }
+        fragmentCallbacks = null
     }
 
     @SuppressLint("CheckResult")
